@@ -12,7 +12,7 @@ function mathx.random_choice(possible_values, random_func)
 
 	if type(possible_values) == "string" then
 		-- split on commas
-		for word in possible_values:split() do
+		for word in possible_values:quoted_split() do
 			-- does the word contain two dots? If yes, that's a range
 			local dots_start, dots_end = word:find("%.%.")
 			if dots_start then
