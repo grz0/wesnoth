@@ -42,7 +42,6 @@
 #include "scripting/push_check.hpp"
 
 #include "game_version.hpp"                  // for do_version_check, etc
-#include "picture.hpp"
 
 #include <functional>
 #include "utils/name_generator.hpp"
@@ -386,22 +385,6 @@ static int intf_deprecated_message(lua_State* L) {
 	return 0;
 }
 
-/**
-* Gets the dimension of an image.
-* - Arg 1: string.
-* - Ret 1: width.
-* - Ret 2: height.
-*/
-static int intf_get_image_size(lua_State *L) {
-	char const *m = luaL_checkstring(L, 1);
-	image::locator img(m);
-	if(!img.file_exists()) return 0;
-	surface s = get_image(img);
-	lua_pushinteger(L, s->w);
-	lua_pushinteger(L, s->h);
-	return 2;
-}
-
 static int intf_get_language(lua_State* L)
 {
 	lua_push(L, get_language().localename);
@@ -452,6 +435,7 @@ lua_kernel_base::lua_kernel_base()
 		{ "mathx",  lua_mathx::luaW_open },
 		{ "wml",    lua_wml::luaW_open },
 		{ "gui",    lua_gui2::luaW_open },
+		{ "filesystem", lua_fileops::luaW_open },
 		{ nullptr, nullptr }
 	};
 	for (luaL_Reg const *lib = safe_libs; lib->func; ++lib)
@@ -491,9 +475,6 @@ lua_kernel_base::lua_kernel_base()
 
 	static luaL_Reg const callbacks[] {
 		{ "deprecated_message",       &intf_deprecated_message              },
-		{ "have_file",                &lua_fileops::intf_have_file          },
-		{ "read_file",                &lua_fileops::intf_read_file          },
-		{ "canonical_path",           &lua_fileops::intf_canonical_path     },
 		{ "textdomain",               &lua_common::intf_textdomain   		},
 		{ "dofile",                   &dispatch<&lua_kernel_base::intf_dofile>           },
 		{ "require",                  &dispatch<&lua_kernel_base::intf_require>          },
@@ -502,7 +483,6 @@ lua_kernel_base::lua_kernel_base()
 		{ "eval_formula",             &lua_formula_bridge::intf_eval_formula},
 		{ "name_generator",           &intf_name_generator           },
 		{ "log",                      &intf_log                      },
-		{ "get_image_size",           &intf_get_image_size           },
 		{ "get_language",             &intf_get_language             },
 		{ nullptr, nullptr }
 	};
