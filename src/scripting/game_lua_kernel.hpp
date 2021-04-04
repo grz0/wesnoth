@@ -218,7 +218,9 @@ public:
 	bool run_filter(char const *name, int nArgs);
 	bool run_wml_conditional(const std::string&, const vconfig&);
 	/** Store a WML event in the Lua registry, as a function */
-	int save_wml_event(const config& evt);
+	int save_wml_event();
+	int save_wml_event(const std::string& name, const std::string& id, const std::string& code);
+	int save_wml_event(int idx);
 	/** Clear a WML event store in the Lua registry */
 	void clear_wml_event(int ref);
 	/** Run a WML store in the Lua registry */

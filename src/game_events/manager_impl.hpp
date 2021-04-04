@@ -24,6 +24,22 @@ class game_lua_kernel;
 
 namespace game_events
 {
+class event_handlers;
+class pending_event_handler
+{
+	event_handlers& list_;
+	handler_ptr handler_;
+public:
+	pending_event_handler(event_handlers& list, handler_ptr handler)
+		: list_(list)
+		, handler_(handler)
+	{}
+	bool valid() const {return handler_.get();}
+	event_handler* operator->() {return handler_.get();}
+	event_handler& operator*() {return *handler_;}
+	~pending_event_handler();
+};
+
 // event_handlers is essentially the implementation details of the manager
 class event_handlers
 {
@@ -49,6 +65,9 @@ private:
 	id_map_t id_map_;
 
 	void log_handlers();
+	
+	friend pending_event_handler;
+	void finish_adding_event_handler(handler_ptr new_handler);
 
 public:
 	/** Utility to standardize the event names used in by_name_. */
@@ -83,7 +102,7 @@ public:
 	handler_list& get(const std::string& name);
 
 	/** Adds an event handler. */
-	void add_event_handler(const config& cfg, game_lua_kernel& lk, bool is_menu_item = false);
+	pending_event_handler add_event_handler(const std::string& name, const std::string& id, bool repeat, bool is_menu_item = false);
 
 	/** Removes an event handler, identified by its ID. */
 	void remove_event_handler(const std::string& id);
