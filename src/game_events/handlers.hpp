@@ -38,6 +38,10 @@ struct event_filter {
 	virtual bool operator()(const queued_event& event_info) const = 0;
 	virtual void serialize(config& cfg) const;
 	virtual ~event_filter() = default;
+	event_filter() = default;
+private:
+	event_filter(const event_filter&) = delete;
+	event_filter& operator=(const event_filter&) = delete;
 };
 
 class event_handler
