@@ -3195,6 +3195,27 @@ int game_lua_kernel::intf_log_replay(lua_State* L)
 	return 0;
 }
 
+struct lua_event_filter : public game_events::event_filter
+{
+	lua_event_filter(game_lua_kernel& lk, int idx, const config& args) : lk(lk), args_(args)
+	{
+		lk.save_wml_event(idx);
+	}
+	bool operator()(const game_events::queued_event& event_info) const override
+	{
+		bool result;
+		return lk.run_wml_event(ref_, args_, event_info, &result) && result;
+	}
+	~lua_event_filter()
+	{
+		lk.clear_wml_event(ref_);
+	}
+private:
+	game_lua_kernel& lk;
+	int ref_;
+	vconfig args_;
+};
+
 static std::string read_event_name(lua_State* L, int idx)
 {
 	if(lua_isstring(L, idx)) {
@@ -3210,7 +3231,7 @@ static std::string read_event_name(lua_State* L, int idx)
  * id: Event ID
  * menu_item: True if this is a menu item (an ID is required); this means removing the menu item will automatically remove this event. Default false.
  * repeat: Whether this event should fire more than once; default false.
- * filter: Event filters as a config with filter tags or a table of the form {filter_type = filter_contents}
+ * filter: Event filters as a config with filter tags, a table of the form {filter_type = filter_contents}, or a function
  * content: The content of the event. This is a WML table passed verbatim into the event when it fires. If no function is specified, it will be interpreted as ActionWML, unless it has a "code" attribute, in which case that code will be compiled as the function.
  * action: The function to call when the event triggers. Defaults to wesnoth.wml_actions.command.
  * OR
@@ -3262,7 +3283,8 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 				config filters;
 				if(!luaW_toconfig(L, filterIdx, filters)) {
 					if(lua_isfunction(L, filterIdx)) {
-						//new_handler->add_filter(std::make_unique<lua_event_filter>());
+						int fcnIdx = lua_absindex(L, -1);
+						new_handler->add_filter(std::make_unique<lua_event_filter>(*this, fcnIdx, luaW_table_get_def(L, 1, "filter_args", config())));
 					} else {
 						if(luaW_tableget(L, filterIdx, "condition")) {
 							filters.add_child("filter_condition", luaW_checkconfig(L, -1));
@@ -4850,7 +4872,7 @@ void game_lua_kernel::clear_wml_event(int ref)
 	lua_pop(L, 1);
 }
 
-bool game_lua_kernel::run_wml_event(int ref, const vconfig& args, const game_events::queued_event& ev)
+bool game_lua_kernel::run_wml_event(int ref, const vconfig& args, const game_events::queued_event& ev, bool* out)
 {
 	lua_State* L = mState;
 	lua_geti(L, LUA_REGISTRYINDEX, EVENT_TABLE);
@@ -4861,7 +4883,14 @@ bool game_lua_kernel::run_wml_event(int ref, const vconfig& args, const game_eve
 	if(lua_isnil(L, -1)) return false;
 	luaW_pushvconfig(L, args);
 	queued_event_context dummy(&ev, queued_events_);
-	return protected_call(1, 0);
+	if(protected_call(1, out ? 1 : 0)) {
+		if(out) {
+			*out = luaW_toboolean(L, -1);
+			lua_pop(L, 1);
+		}
+		return true;
+	}
+	return false;
 }
 
 

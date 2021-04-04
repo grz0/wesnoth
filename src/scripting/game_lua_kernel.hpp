@@ -223,8 +223,8 @@ public:
 	int save_wml_event(int idx);
 	/** Clear a WML event store in the Lua registry */
 	void clear_wml_event(int ref);
-	/** Run a WML store in the Lua registry */
-	bool run_wml_event(int ref, const vconfig& args, const game_events::queued_event& ev);
+	/** Run a WML stored in the Lua registry */
+	bool run_wml_event(int ref, const vconfig& args, const game_events::queued_event& ev, bool* out = nullptr);
 
 	virtual void log_error(char const* msg, char const* context = "Lua error") override;
 
