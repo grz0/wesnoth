@@ -29,6 +29,15 @@ class unit_type;
 namespace wfl
 {
 
+class gamestate_callable : public formula_callable
+{
+public:
+	// TODO: Constructor
+	
+	void get_inputs(formula_input_vector& inputs) const override;
+	variant get_value(const std::string& key) const override;
+};
+
 class terrain_callable : public formula_callable
 {
 public:
