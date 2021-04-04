@@ -29,6 +29,7 @@
 #include "tod_manager.hpp"
 #include "game_board.hpp"
 #include "play_controller.hpp"
+#include "game_events/pump.hpp"
 
 static lg::log_domain log_scripting_formula("scripting/formula");
 #define LOG_SF LOG_STREAM(info, log_scripting_formula)
@@ -891,6 +892,52 @@ variant gamestate_callable::get_value(const std::string &key) const
 		return variant(vars);
 	} else if(key == "map") {
 		return variant(std::make_shared<gamemap_callable>(*resources::gameboard));
+	}
+
+	return variant();
+}
+
+void event_callable::get_inputs(formula_input_vector &inputs) const
+{
+	add_input(inputs, "event");
+	add_input(inputs, "event_id");
+	add_input(inputs, "event_data");
+	add_input(inputs, "loc1");
+	add_input(inputs, "unit1");
+	add_input(inputs, "attack1");
+	add_input(inputs, "loc2");
+	add_input(inputs, "unit2");
+	add_input(inputs, "attack2");
+}
+
+variant event_callable::get_value(const std::string &key) const
+{
+	if(key == "event") {
+		return variant(event_info.name);
+	} else if(key == "event_id") {
+		return variant(event_info.id);
+	} else if(key == "loc1") {
+		return variant(std::make_shared<location_callable>(event_info.loc1));
+	} else if(key == "loc2") {
+		return variant(std::make_shared<location_callable>(event_info.loc2));
+	} else if(key == "event_data") {
+		return variant(std::make_shared<config_callable>(event_info.data));
+	} else if(key == "unit1") {
+		if(auto u1 = event_info.loc1.get_unit()) {
+			return variant(std::make_shared<unit_callable>(*u1));
+		}
+	} else if(key == "unit2") {
+		if(auto u2 = event_info.loc2.get_unit()) {
+			return variant(std::make_shared<unit_callable>(*u2));
+		}
+	} else if(key == "attack1") {
+		if(event_info.data.has_child("first")) {
+			return variant(std::make_shared<attack_type_callable>(attack_type(event_info.data.child("first"))));
+		}
+	} else if(key == "attack2") {
+		if(event_info.data.has_child("second")) {
+			return variant(std::make_shared<attack_type_callable>(attack_type(event_info.data.child("second"))));
+		}
 	}
 
 	return variant();

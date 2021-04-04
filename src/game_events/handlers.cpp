@@ -224,7 +224,9 @@ struct filter_formula : public event_filter {
 	bool operator()(const queued_event& event_info) const override
 	{
 		wfl::gamestate_callable gs;
-		return formula_.evaluate(gs).as_bool();
+		wfl::event_callable evt(event_info);
+		wfl::formula_callable_with_backup data(evt, gs);
+		return formula_.evaluate(data).as_bool();
 	}
 	void serialize(config& cfg) const override
 	{

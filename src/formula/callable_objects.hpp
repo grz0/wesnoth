@@ -25,6 +25,7 @@ class team;
 class terrain_type;
 class unit;
 class unit_type;
+namespace game_events {class queued_event;}
 
 namespace wfl
 {
@@ -36,6 +37,17 @@ public:
 	
 	void get_inputs(formula_input_vector& inputs) const override;
 	variant get_value(const std::string& key) const override;
+};
+
+class event_callable : public formula_callable
+{
+public:
+	event_callable(const game_events::queued_event& event) : event_info(event) {}
+	
+	void get_inputs(formula_input_vector& inputs) const override;
+	variant get_value(const std::string& key) const override;
+private:
+	const game_events::queued_event& event_info;
 };
 
 class terrain_callable : public formula_callable
