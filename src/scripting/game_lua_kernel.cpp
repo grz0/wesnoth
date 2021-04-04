@@ -2064,7 +2064,8 @@ int game_lua_kernel::intf_set_floating_label(lua_State* L, bool spawn)
 	}
 	
 	const SDL_Rect& rect = game_display_->map_outside_area();
-	int x = rect.x + rect.w / 2 + loc.wml_x(), y = rect.y + rect.h / 2 + loc.wml_y();
+	int x = rect.x + rect.w / 2 + loc.wml_x();
+	int y = rect.y + rect.h / 2 + loc.wml_y();
 	
 	font::floating_label flabel(text);
 	flabel.set_font_size(size);
