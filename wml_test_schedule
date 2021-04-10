@@ -6,6 +6,13 @@
 0 test_assert
 1 test_assert_fail
 1 test_assert_fail_two
+0 test_lua_return
+1 test_lua_return_fail
+0 test_lua_assert
+1 test_lua_assert_fail
+1 test_lua_assert_fail_two
+0 test_lua_assert_compare
+1 test_lua_assert_compare_fail
 2 empty_test
 4 break_replay_with_lua_random
 0 fixed_lua_random_replay_with_sync_choice
