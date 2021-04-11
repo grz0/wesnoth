@@ -134,17 +134,25 @@ void event_handler::write_config(config &cfg) const
 		WRN_NG << "Tried to serialize disabled event, skipping";
 		return;
 	}
+	static const char* log_append_preload = " - this will not break saves since it was registered during or before preload";
+	static const char* log_append_postload = " - this will break saves because it was registered after preload";
 	if(is_lua_) {
-		WRN_NG << "Skipping serialization of an event with action bound to Lua code";
+		static const char* log = "Skipping serialization of an event with action bound to Lua code";
 		if(has_preloaded_){
-			lg::wml_error() << "Skipping serialization of an event with action bound to Lua code";
+			WRN_NG << log << log_append_postload;
+			lg::wml_error() << log << log_append_postload;
+		} else {
+			LOG_NG << log << log_append_preload;
 		}
 		return;
 	}
 	if(!std::all_of(filters_.begin(), filters_.end(), std::mem_fn(&event_filter::can_serialize))) {
-		WRN_NG << "Skipping serialization of an event with filter bound to Lua code";
+		static const char* log = "Skipping serialization of an event with filter bound to Lua code";
 		if(has_preloaded_) {
-			lg::wml_error() << "Skipping serialization of an event with filter bound to Lua code";
+			WRN_NG << log << log_append_postload;
+			lg::wml_error() << log << log_append_postload;
+		} else {
+			LOG_NG << log << log_append_preload;
 		}
 		return;
 	}
