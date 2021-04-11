@@ -3260,7 +3260,7 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 		if(new_handler.valid()) {
 			// An event with empty arguments is not added, so set some dummy arguments
 			new_handler->set_arguments(config{"__quick_lua_event", true});
-			new_handler->set_event_ref(save_wml_event(2));
+			new_handler->set_event_ref(save_wml_event(2), has_preloaded_);
 		}
 	} else if(lua_istable(L, 1)) {
 		using namespace std::literals;
@@ -3305,7 +3305,7 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 			}
 			
 			if(luaW_tableget(L, 1, "action")) {
-				new_handler->set_event_ref(save_wml_event(-1));
+				new_handler->set_event_ref(save_wml_event(-1), has_preloaded_);
 			} else {
 				new_handler->register_wml_event(*this);
 			}
