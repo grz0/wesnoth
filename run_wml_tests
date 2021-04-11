@@ -217,7 +217,7 @@ class WesnothRunner:
             test_summary.fail_test()
             test_summary.skip_test(len(test_list) - num_passed - 1)
             raise UnexpectedTestStatusException()
-        else:
+        elif test_list[0].status != UnitTestResult.PASS:
             test_summary.pass_test()
 
 def test_batcher(test_list):
