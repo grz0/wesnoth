@@ -134,8 +134,8 @@ void event_handler::write_config(config &cfg) const
 		WRN_NG << "Tried to serialize disabled event, skipping";
 		return;
 	}
-	static const char* log_append_preload = " - this will not break saves since it was registered during or before preload";
-	static const char* log_append_postload = " - this will break saves because it was registered after preload";
+	static const char* log_append_preload = " - this will not break saves since it was registered during or before preload\n";
+	static const char* log_append_postload = " - this will break saves because it was registered after preload\n";
 	if(is_lua_) {
 		static const char* log = "Skipping serialization of an event with action bound to Lua code";
 		if(has_preloaded_){
