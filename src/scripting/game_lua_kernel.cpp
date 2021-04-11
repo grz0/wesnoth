@@ -3225,7 +3225,7 @@ static std::string read_event_name(lua_State* L, int idx)
  * name: Event to handle, as a string or list of strings
  * id: Event ID
  * menu_item: True if this is a menu item (an ID is required); this means removing the menu item will automatically remove this event. Default false.
- * repeat: Whether this event should fire more than once; default false.
+ * repeating: Whether this event should fire more than once; default false.
  * filter: Event filters as a config with filter tags, a table of the form {filter_type = filter_contents}, or a function
  * content: The content of the event. This is a WML table passed verbatim into the event when it fires. If no function is specified, it will be interpreted as ActionWML, unless it has a "code" attribute, in which case that code will be compiled as the function.
  * action: The function to call when the event triggers. Defaults to wesnoth.wml_actions.command.
@@ -3265,7 +3265,7 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 	} else if(lua_istable(L, 1)) {
 		using namespace std::literals;
 		std::string name, id = luaW_table_get_def(L, 1, "id", ""s);
-		bool repeat = luaW_table_get_def(L, 1, "repeat", false), is_menu_item = luaW_table_get_def(L, 1, "menu_item", false);
+		bool repeat = luaW_table_get_def(L, 1, "repeating", false), is_menu_item = luaW_table_get_def(L, 1, "menu_item", false);
 		if(luaW_tableget(L, 1, "name")) {
 			name = read_event_name(L, -1);
 		}
