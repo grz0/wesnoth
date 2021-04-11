@@ -128,10 +128,6 @@ void event_handlers::finish_adding_event_handler(handler_ptr handler)
 	DBG_EH << "inserting event handler for name=" << names << " with id=" << id << "\n";
 	active_.emplace_back(handler);
 
-	//
-	//  !! event_cfg is invalid past this point! DO NOT USE!
-	//
-
 	// File by name.
 	if(utils::might_contain_variables(names)) {
 		dynamic_.emplace_back(active_.back());

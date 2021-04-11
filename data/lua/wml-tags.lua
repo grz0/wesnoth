@@ -153,7 +153,7 @@ function wml_actions.fire_event(cfg)
 	if w2 then table.insert(data, wml.tag.second(w2)) end
 
 	if cfg.id and cfg.id ~= "" then wesnoth.game_events.fire_event_by_id(cfg.id, x1, y1, x2, y2, data)
-	elseif cfg.name and cfg.name ~= "" then wesnoth.gamee_events.fire_event(cfg.name, x1, y1, x2, y2, data)
+	elseif cfg.name and cfg.name ~= "" then wesnoth.game_events.fire_event(cfg.name, x1, y1, x2, y2, data)
 	end
 end
 

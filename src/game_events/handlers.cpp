@@ -82,8 +82,6 @@ std::vector<std::string> event_handler::names(const variable_set* vars) const
 				single_name = event_handlers::standardize_name(single_name);
 			}
 		}
-
-		assert(!standardized_names.empty());
 	}
 	
 	// We might've ended up with empty entries if we don't have gamedata.
