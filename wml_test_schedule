@@ -114,6 +114,10 @@
 0 event_test_lua_dynamic_advanced
 0 event_test_lua_dynamic_repeat
 5 event_test_lua_dynamic_break_save
+0 event_test_filter_wfl
+0 event_test_filter_lua_serializable
+0 event_test_filter_lua_dynamic
+5 event_test_filter_lua_dynamic_break_save
 0 filter_vision
 0 scatter_units
 0 has_ally
