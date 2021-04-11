@@ -3194,7 +3194,7 @@ struct lua_event_filter : public game_events::event_filter
 {
 	lua_event_filter(game_lua_kernel& lk, int idx, const config& args) : lk(lk), args_(args)
 	{
-		lk.save_wml_event(idx);
+		ref_ = lk.save_wml_event(idx);
 	}
 	bool operator()(const game_events::queued_event& event_info) const override
 	{
