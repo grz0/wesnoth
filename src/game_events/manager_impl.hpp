@@ -25,8 +25,10 @@ class game_lua_kernel;
 namespace game_events
 {
 class event_handlers;
-/// Represents a handler that is about to be added to the events manager but is still waiting for some data.
-/// The handler will automatically be added when this class is destroyed, unless it has become invalid somehow.
+/**
+ * Represents a handler that is about to be added to the events manager but is still waiting for some data.
+ * The handler will automatically be added when this class is destroyed, unless it has become invalid somehow.
+ */
 class pending_event_handler
 {
 	event_handlers& list_;

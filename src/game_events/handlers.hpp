@@ -34,13 +34,13 @@ class variable_set;
 namespace game_events
 {
 struct queued_event;
-/// Represents a single filter condition on an event.
+/** Represents a single filter condition on an event. */
 struct event_filter {
-	/// Runs the filter and returns whether it passes on the given event.
+	/** Runs the filter and returns whether it passes on the given event. */
 	virtual bool operator()(const queued_event& event_info) const = 0;
-	/// Serializes the filter into a config, if possible.
+	/** Serializes the filter into a config, if possible. */
 	virtual void serialize(config& cfg) const;
-	/// Returns true if it is possible to serialize the filter into a config.
+	/** Returns true if it is possible to serialize the filter into a config. */
 	virtual bool can_serialize() const;
 	virtual ~event_filter() = default;
 	event_filter() = default;
