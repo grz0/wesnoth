@@ -30,15 +30,18 @@ namespace game_events {class queued_event;}
 namespace wfl
 {
 
+// An object representing the state of the game, providing access to the map and basic information
 class gamestate_callable : public formula_callable
 {
 public:
 	// TODO: Constructor
+	// Currently it accesses all its state through the resources namespace, so nothing is passed into it.
 	
 	void get_inputs(formula_input_vector& inputs) const override;
 	variant get_value(const std::string& key) const override;
 };
 
+// An object representing the state of the current event; equivalent to Lua's wesnoth.current.event_context
 class event_callable : public formula_callable
 {
 public:

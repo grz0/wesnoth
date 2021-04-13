@@ -25,6 +25,8 @@ class game_lua_kernel;
 namespace game_events
 {
 class event_handlers;
+/// Represents a handler that is about to be added to the events manager but is still waiting for some data.
+/// The handler will automatically be added when this class is destroyed, unless it has become invalid somehow.
 class pending_event_handler
 {
 	event_handlers& list_;
@@ -34,7 +36,9 @@ public:
 		: list_(list)
 		, handler_(handler)
 	{}
+	/// Check if this handler is valid.
 	bool valid() const {return handler_.get();}
+	/// Access the event handler.
 	event_handler* operator->() {return handler_.get();}
 	event_handler& operator*() {return *handler_;}
 	~pending_event_handler();
