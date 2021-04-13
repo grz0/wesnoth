@@ -118,6 +118,7 @@
 0 event_test_filter_lua_serializable
 0 event_test_filter_lua_dynamic
 5 event_test_filter_lua_dynamic_break_save
+0 test_lua_name
 0 test_lua_event_name
 0 filter_vision
 0 scatter_units
