@@ -922,19 +922,19 @@ variant event_callable::get_value(const std::string &key) const
 		return variant(std::make_shared<location_callable>(event_info.loc2));
 	} else if(key == "event_data") {
 		return variant(std::make_shared<config_callable>(event_info.data));
-	} else if(key == "unit1") {
+	} else if(key == "unit") {
 		if(auto u1 = event_info.loc1.get_unit()) {
 			return variant(std::make_shared<unit_callable>(*u1));
 		}
-	} else if(key == "unit2") {
+	} else if(key == "second_unit") {
 		if(auto u2 = event_info.loc2.get_unit()) {
 			return variant(std::make_shared<unit_callable>(*u2));
 		}
-	} else if(key == "attack1") {
+	} else if(key == "weapon") {
 		if(event_info.data.has_child("first")) {
 			return variant(std::make_shared<attack_type_callable>(attack_type(event_info.data.child("first"))));
 		}
-	} else if(key == "attack2") {
+	} else if(key == "second_weapon") {
 		if(event_info.data.has_child("second")) {
 			return variant(std::make_shared<attack_type_callable>(attack_type(event_info.data.child("second"))));
 		}
