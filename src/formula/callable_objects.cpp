@@ -902,10 +902,10 @@ void event_callable::get_inputs(formula_input_vector &inputs) const
 	add_input(inputs, "event");
 	add_input(inputs, "event_id");
 	add_input(inputs, "event_data");
-	add_input(inputs, "loc1");
+	add_input(inputs, "loc");
 	add_input(inputs, "unit");
 	add_input(inputs, "weapon");
-	add_input(inputs, "loc2");
+	add_input(inputs, "second_loc");
 	add_input(inputs, "second_unit");
 	add_input(inputs, "second_weapon");
 }
@@ -916,9 +916,9 @@ variant event_callable::get_value(const std::string &key) const
 		return variant(event_info.name);
 	} else if(key == "event_id") {
 		return variant(event_info.id);
-	} else if(key == "loc1") {
+	} else if(key == "loc") {
 		return variant(std::make_shared<location_callable>(event_info.loc1));
-	} else if(key == "loc2") {
+	} else if(key == "second_loc") {
 		return variant(std::make_shared<location_callable>(event_info.loc2));
 	} else if(key == "event_data") {
 		return variant(std::make_shared<config_callable>(event_info.data));
