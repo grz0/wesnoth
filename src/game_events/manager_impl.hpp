@@ -33,6 +33,8 @@ class pending_event_handler
 {
 	event_handlers& list_;
 	handler_ptr handler_;
+	pending_event_handler(const pending_event_handler&) = delete;
+	pending_event_handler& operator=(const pending_event_handler&) = delete;
 public:
 	pending_event_handler(event_handlers& list, handler_ptr handler)
 		: list_(list)
@@ -43,6 +45,8 @@ public:
 	/// Access the event handler.
 	event_handler* operator->() {return handler_.get();}
 	event_handler& operator*() {return *handler_;}
+	pending_event_handler(pending_event_handler&&) = default;
+	pending_event_handler& operator=(pending_event_handler&&) = default;
 	~pending_event_handler();
 };
 
