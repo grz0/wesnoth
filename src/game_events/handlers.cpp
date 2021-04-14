@@ -57,6 +57,7 @@ event_handler::event_handler(const std::string& types, const std::string& id)
 	, is_menu_item_(false)
 	, disabled_(false)
 	, is_lua_(false)
+	, id_(id)
 	, types_(types)
 {}
 
