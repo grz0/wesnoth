@@ -25,7 +25,7 @@ class team;
 class terrain_type;
 class unit;
 class unit_type;
-namespace game_events {class queued_event;}
+namespace game_events {struct queued_event;}
 
 namespace wfl
 {

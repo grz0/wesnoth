@@ -164,7 +164,7 @@ void event_handler::write_config(config &cfg) const
 	cfg.append(args_);
 }
 
-void event_filter::serialize(config& cfg) const
+void event_filter::serialize(config&) const
 {
 	WRN_NG << "Tried to serialize an event with a filter that cannot be serialized!";
 }
@@ -309,9 +309,9 @@ struct filter_lua : public event_filter {
 		resources::lua_kernel->clear_wml_event(event_ref_);
 	}
 private:
+	std::string code_;
 	vconfig args_;
 	int event_ref_;
-	std::string code_;
 };
 
 void event_handler::read_filters(const config &cfg)
