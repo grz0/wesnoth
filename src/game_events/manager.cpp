@@ -74,7 +74,7 @@ void manager::add_event_handler_from_wml(const config& handler, game_lua_kernel&
 		// Strip out anything that's used by the event system itself.
 		config args;
 		for(const auto& [attr, val] : handler.attribute_range()) {
-			if(attr == "id" || attr == "name" || attr == "first_time_only" || attr == "filter" || attr == "filter_formula") {
+			if(attr == "id" || attr == "name" || attr == "first_time_only" || attr.compare(0, 6, "filter") == 0) {
 				continue;
 			}
 			args[attr] = val;
