@@ -3245,9 +3245,9 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 		bool delayed_variable_substitution = luaW_toboolean(L, 1);
 		vconfig cfg(luaW_checkvconfig(L, 2));
 		if(delayed_variable_substitution) {
-			man.add_event_handler_from_wml(cfg.get_parsed_config(), *this);
-		} else {
 			man.add_event_handler_from_wml(cfg.get_config(), *this);
+		} else {
+			man.add_event_handler_from_wml(cfg.get_parsed_config(), *this);
 		}
 	} else if(lua_isstring(L, 1)) {
 		bool is_menu_item = luaW_toboolean(L, 3), repeat = true;
