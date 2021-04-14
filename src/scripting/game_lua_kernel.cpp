@@ -3307,7 +3307,7 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 			if(luaW_tableget(L, 1, "action")) {
 				new_handler->set_event_ref(save_wml_event(-1), has_preloaded_);
 			} else {
-				new_handler->register_wml_event(*this);
+				new_handler->set_event_ref(save_wml_event(), has_preloaded_);
 			}
 		}
 	} else {
