@@ -862,9 +862,9 @@ void safe_call_result::get_inputs(formula_input_vector& inputs) const
 
 void gamestate_callable::get_inputs(formula_input_vector &inputs) const
 {
-	add_input(inputs, "turn");
+	add_input(inputs, "turn_number");
 	add_input(inputs, "time_of_day");
-	add_input(inputs, "current_side");
+	add_input(inputs, "side_number");
 	add_input(inputs, "sides");
 	add_input(inputs, "units");
 	add_input(inputs, "map");
@@ -872,11 +872,11 @@ void gamestate_callable::get_inputs(formula_input_vector &inputs) const
 
 variant gamestate_callable::get_value(const std::string &key) const
 {
-	if(key == "turn") {
+	if(key == "turn_number") {
 		return variant(resources::tod_manager->turn());
 	} else if(key == "time_of_day") {
 		return variant(resources::tod_manager->get_time_of_day().id);
-	} else if(key == "current_side") {
+	} else if(key == "side_number") {
 		return variant(resources::controller->current_side());
 	} else if(key == "sides") {
 		std::vector<variant> vars;
