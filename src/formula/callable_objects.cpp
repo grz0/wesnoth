@@ -903,11 +903,11 @@ void event_callable::get_inputs(formula_input_vector &inputs) const
 	add_input(inputs, "event_id");
 	add_input(inputs, "event_data");
 	add_input(inputs, "loc1");
-	add_input(inputs, "unit1");
-	add_input(inputs, "attack1");
+	add_input(inputs, "unit");
+	add_input(inputs, "weapon");
 	add_input(inputs, "loc2");
-	add_input(inputs, "unit2");
-	add_input(inputs, "attack2");
+	add_input(inputs, "second_unit");
+	add_input(inputs, "second_weapon");
 }
 
 variant event_callable::get_value(const std::string &key) const
