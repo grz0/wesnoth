@@ -3271,6 +3271,7 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 		}
 		auto new_handler = man.add_event_handler_from_lua(name, id, repeat, is_menu_item);
 		if(new_handler.valid()) {
+			bool has_lua_filter = false;
 			new_handler->set_arguments(luaW_table_get_def(L, 1, "content", config{"__empty_lua_event", true}));
 			
 			if(luaW_tableget(L, 1, "filter")) {
@@ -3280,6 +3281,7 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 					if(lua_isfunction(L, filterIdx)) {
 						int fcnIdx = lua_absindex(L, -1);
 						new_handler->add_filter(std::make_unique<lua_event_filter>(*this, fcnIdx, luaW_table_get_def(L, 1, "filter_args", config())));
+						has_lua_filter = true;
 					} else {
 						if(luaW_tableget(L, filterIdx, "condition")) {
 							filters.add_child("filter_condition", luaW_checkconfig(L, -1));
@@ -3307,7 +3309,12 @@ int game_lua_kernel::intf_add_event(lua_State *L)
 			if(luaW_tableget(L, 1, "action")) {
 				new_handler->set_event_ref(save_wml_event(-1), has_preloaded_);
 			} else {
-				new_handler->set_event_ref(save_wml_event(), has_preloaded_);
+				if(has_lua_filter) {
+					// This just sets the appropriate flags so the engine knows it cannot be serialized.
+					// The register_wml_event call will override the actual event_ref so just pass LUA_NOREF here.
+					new_handler->set_event_ref(LUA_NOREF, has_preloaded_);
+				}
+				new_handler->register_wml_event(*this);
 			}
 		}
 	} else {
