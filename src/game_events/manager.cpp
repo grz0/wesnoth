@@ -86,7 +86,7 @@ void manager::add_event_handler_from_wml(const config& handler, game_lua_kernel&
 		}
 		new_handler->set_arguments(args);
 		new_handler->register_wml_event(lk);
-		DBG_EH << "Registered WML event"
+		DBG_EH << "Registered WML event "
 			<< (new_handler->names_raw().empty() ? "" : "'" + new_handler->names_raw() + "'")
 			<< (new_handler->id().empty() ? "" : "{id=" + new_handler->id() + "}")
 			<< (new_handler->repeatable() ? " (repeating" : " (first time only")
