@@ -95,6 +95,11 @@ public:
 	
 	bool empty() const;
 	
+	bool repeatable() const
+	{
+		return !first_time_only_;
+	}
+	
 	void write_config(config& cfg) const;
 	
 	void set_repeatable(bool repeat = true)
