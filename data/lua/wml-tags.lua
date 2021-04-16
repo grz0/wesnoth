@@ -783,7 +783,9 @@ function wml_actions.event(cfg)
 		wesnoth.deprecated_message("[event]remove=yes", 2, "1.17.0", "Use [remove_event] instead of [event]remove=yes")
 		wml_actions.remove_event(cfg)
 	else
-		wesnoth.game_events.add(cfg.delayed_variable_substitution or false, cfg)
+		local delay = cfg.delayed_variable_substitution
+		if delay == nil then delay = true end
+		wesnoth.game_events.add(delay, cfg)
 	end
 end
 
